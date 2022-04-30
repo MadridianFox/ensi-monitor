@@ -1,0 +1,34 @@
+{
+  "name": "laravel-ensi/monitor",
+  "description": "",
+  "keywords": ["laravel", "monitoring"],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Ivan Koryukov",
+      "email": "koryukov@greensight.ru"
+    }
+  ],
+  "require": {
+    "php": "^8",
+    "ext-json": "*",
+    "ensi/laravel-initial-event-propagation": "^0.2.7",
+    "ensi/laravel-phprdkafka": "0.2.2",
+    "ensi/laravel-phprdkafka-producer": "0.2.1",
+    "psr/http-message": "^1.0"
+  },
+  "require-dev": {
+    "laravel/framework": "^9"
+  },
+  "autoload": {
+    "psr-4": {
+      "Ensi\\Monitor\\": "src/"
+    }
+  },
+  "extra": {},
+  "config": {
+    "sort-packages": true
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
