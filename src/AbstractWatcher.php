@@ -2,6 +2,7 @@
 
 namespace Ensi\Monitor;
 
+use Ensi\LaravelInitialEventPropagation\InitialEventHolderFacade;
 use Ensi\LaravelPhpRdKafkaProducer\HighLevelProducer;
 
 abstract class AbstractWatcher
@@ -17,10 +18,22 @@ abstract class AbstractWatcher
 
     protected function send(array $message): void
     {
+        $data = array_merge($this->getBaseFields(), $message);
         try {
-            $this->producer->sendOne(json_encode($message));
+            $this->producer->sendOne(json_encode($data));
         } catch (\Throwable $e) {
             // do nothing
         }
+    }
+
+    protected function getBaseFields(): array
+    {
+        return [
+            'app' => strtolower(str_replace(" ", "-", config('app.name'))),
+            'tenant' => config('monitor.tenant'),
+            'instance' => config('monitor.instance'),
+            'correlation_id' => InitialEventHolderFacade::getInitialEvent()->correlationId,
+            'entrypoint' => Core::getTxnId(),
+        ];
     }
 }
